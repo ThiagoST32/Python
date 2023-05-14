@@ -22,8 +22,8 @@ def RetrieveBlob(ID):
     SQLStatement2 = "SELECT * FROM imagem_save WHERE id = '{0}'"
     MyCursor.execute(SQLStatement2.format(str(ID)))
     MyResult = MyCursor.fetchone()[1]
-    StoreFilePath = "../Abrec_Camera/test/capture{0}.png".format(str(ID))
-   ##print(MyResult)
+    StoreFilePath = "capture{0}.png".format(str(ID))
+    print(MyResult)
     with open(StoreFilePath, "wb") as File:
         File.write(MyResult)
         File.close()
