@@ -21,28 +21,38 @@ def InsertBlob(FilePath):
     MyCursor.execute(SQlStatement, (BinaryData, ))
     myDB.commit()
 
-
 def RetrieveBlob(ID):
     SQLStatement2 = "SELECT * FROM imagens WHERE id = '{0}'"
     MyCursor.execute(SQLStatement2.format(str(ID)))
-    StoreFilePath = "C:/Users/User/Desktop/Codigos/Python/Abrec_Camera/test/capture{0}.png".format(str(ID))
+    # StoreFilePath = "C:/Users/User/Desktop/Codigos/Python/Abrec_Camera/test/"
     MyResult = MyCursor.fetchone()[1]
-    image_format = imghdr.what('capture{}.png', h = MyResult.encode()) 
-    # with open(StoreFilePath, "wb") as File:
-    #     File.write(MyResult.encode('utf-8'))
-    #     File.close()
+    image_format = imghdr.what("capture49acde6468.jpg", h =MyResult.encode())
+    
     if image_format:
         image = Image.open(io.BytesIO(MyResult))
         StoreFilePath = "C:/Users/User/Desktop/Codigos/Python/Abrec_Camera/test/capture{0}.png".format(str(ID))
-        image.save(StoreFilePath)
+        image.save(StoreFilePath, "png")
     else:
         print("The retrieved data is not a valid image.")
+
+
+# # This portion is part of my test code
+# byteImgIO = io.BytesIO()
+# byteImg = Image.open("some/location/to/a/file/in/my/directories.png")
+# byteImg.save(byteImgIO, "PNG")
+# byteImgIO.seek(0)
+# byteImg = byteImgIO.read()
+
+
+
+
+
+    # with open(StoreFilePath, "wb") as File:
+    #     File.write(MyResult.encode('utf-8'))
+    #     File.close()
     # image = Image.open(io.BytesIO(MyResult.encode('utf-8')))
     # StoreFilePath = "C:/Users/User/Desktop/Codigos/Python/Abrec_Camera/test/capture{0}.png".format(str(ID))
     # image.save(StoreFilePath)
-  
-    # StoreFilePath = "C:/Users/User/Desktop/Codigos/Python/Abrec_Camera/test/capture{0}.png".format(str(ID))
-    # print(MyResult)
     
 
 
