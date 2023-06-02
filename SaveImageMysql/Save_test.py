@@ -33,12 +33,11 @@ def UpdateBlob(id, FilePath):
 def RetrieveImageBytes(ID):
     SQLStatement2 = "SELECT * FROM imagens WHERE id = '{0}'"
     MyCursor.execute(SQLStatement2.format(str(ID)))
-    StoreFilePath = "C://Users//User//Desktop//Codigos//Python//Abrec_Camera//test//fotos//"
     MyResult = MyCursor.fetchone()[1]
-    image_format = imghdr.what("capture49acde6468.jpg", h =MyResult.encode())
+    image_format = imghdr.what("capture49acde6468.jpg", h = MyResult.encode())
     if image_format:
         image = Image.open(io.BytesIO(MyResult))
-        StoreFilePath = "C://Users//User//Desktop//Codigos//Python//Abrec_Camera//test//capture{0}.png".format(str(ID))
+        StoreFilePath = "C:/Users/User/Desktop/Codigos/Python/Abrec_Camera/test/capture{0}.png".format(str(ID))
         image.save(StoreFilePath, "png")
     else:
         print("The retrieved data is not a valid image.")
@@ -52,26 +51,16 @@ def RetrieveBlob(ID):
     with open (StoreFilePath, "wb") as File:
         File.write(MyResult2)
         File.close()
-
-
-
-    # image_format = imghdr.what("../Abrec_Camera/test/capture49acde6468.jpg")
-    
-    # if image_format:
-    #     image = Image.open(io.BytesIO(MyResult))
-    #     StoreFilePath = "C:/Users/User/Desktop/Codigos/Python/Abrec_Camera/test/capture{0}.png".format(str(ID))
-    #     image.save(StoreFilePath, "png")
-    # else:
-    #     print("The retrieved data is not a valid image.")
-
-
-
+        
+        
     # with open(StoreFilePath, "wb") as File:
     #     File.write(MyResult.encode('utf-8'))
     #     File.close()
     # image = Image.open(io.BytesIO(MyResult.encode('utf-8')))
     # StoreFilePath = "C:/Users/User/Desktop/Codigos/Python/Abrec_Camera/test/capture{0}.png".format(str(ID))
     # image.save(StoreFilePath)
+    
+    
 print("1.Insert Image \n2.Read Image\n3.Read Image Bytes\n4.Update Image")
 MenuInput = input("Number:")    
 
