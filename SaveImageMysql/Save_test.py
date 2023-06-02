@@ -17,33 +17,57 @@ MyCursor = myDB.cursor()
 def InsertBlob(FilePath):
     with open (FilePath,"rb") as File:
         BinaryData = File.read()
-    SQlStatement = "INSERT INTO imagens (imagem) values (%s)"
+    SQlStatement = "INSERT INTO imagens (nome, caminho) values (%s, %s)"
     MyCursor.execute(SQlStatement, (BinaryData, ))
     myDB.commit()
 
-def RetrieveBlob(ID):
+def UpdateBlob(id, FilePath):
+    with open (FilePath, "wb") as File:
+        BinaryData = File.read()
+    SQLStatement3 = 'UPDATE imagens SET imagem = %s WHERE id= %s'
+    MyCursor.execute(SQLStatement3,(BinaryData, id))
+    myDB.commit()
+
+
+
+def RetrieveImageBytes(ID):
     SQLStatement2 = "SELECT * FROM imagens WHERE id = '{0}'"
     MyCursor.execute(SQLStatement2.format(str(ID)))
-    # StoreFilePath = "C:/Users/User/Desktop/Codigos/Python/Abrec_Camera/test/"
+    StoreFilePath = "C://Users//User//Desktop//Codigos//Python//Abrec_Camera//test//fotos//"
     MyResult = MyCursor.fetchone()[1]
     image_format = imghdr.what("capture49acde6468.jpg", h =MyResult.encode())
-    
     if image_format:
         image = Image.open(io.BytesIO(MyResult))
-        StoreFilePath = "C:/Users/User/Desktop/Codigos/Python/Abrec_Camera/test/capture{0}.png".format(str(ID))
+        StoreFilePath = "C://Users//User//Desktop//Codigos//Python//Abrec_Camera//test//capture{0}.png".format(str(ID))
         image.save(StoreFilePath, "png")
     else:
         print("The retrieved data is not a valid image.")
 
+def RetrieveBlob(ID):
+    SQLStatement2 = "SELECT * FROM imagens WHERE id = '{0}'"
+    MyCursor.execute(SQLStatement2.format(str(ID)))
+    MyResult2 = MyCursor.fetchone()[2]
+    StoreFilePath = "C:/Users/User/Desktop/Codigos/Python/Abrec_Camera/test/fotos/".format(str(ID))
+    print (MyResult2)
+    SQLStatement3 = "SELECT * FROM imagens WHERE id = '{0}'"
+    MyCursor.execute(SQLStatement3.format(str(ID)))
+    MyResult3 = MyCursor.fetchone()[2]
+    StoreFilePath = "C:/Users/User/Desktop/Codigos/Python/Abrec_Camera/test/fotos/capture_teste.png".format(str(ID))
+    print(MyResult3)
+    with open (StoreFilePath, "wb") as File:
+        File.write(MyResult3)
+        File.close()
 
-# # This portion is part of my test code
-# byteImgIO = io.BytesIO()
-# byteImg = Image.open("some/location/to/a/file/in/my/directories.png")
-# byteImg.save(byteImgIO, "PNG")
-# byteImgIO.seek(0)
-# byteImg = byteImgIO.read()
 
 
+    # image_format = imghdr.what("../Abrec_Camera/test/capture49acde6468.jpg")
+    
+    # if image_format:
+    #     image = Image.open(io.BytesIO(MyResult))
+    #     StoreFilePath = "C:/Users/User/Desktop/Codigos/Python/Abrec_Camera/test/capture{0}.png".format(str(ID))
+    #     image.save(StoreFilePath, "png")
+    # else:
+    #     print("The retrieved data is not a valid image.")
 
 
 
@@ -53,17 +77,26 @@ def RetrieveBlob(ID):
     # image = Image.open(io.BytesIO(MyResult.encode('utf-8')))
     # StoreFilePath = "C:/Users/User/Desktop/Codigos/Python/Abrec_Camera/test/capture{0}.png".format(str(ID))
     # image.save(StoreFilePath)
-    
+print("1.Insert Image \n2.Read Image\n3.Read Image Bytes\n4.Update Image")
+MenuInput = input("Number:")    
 
 
+if int (MenuInput) == 0 or 0 > 1:
+    raise TypeError("Porfavor Selecione uma opção!")
 
-
-
-print("1. Insert Image \n2.Read Image")
-MenuInput = input()
-if int (MenuInput) == 1:
+elif int (MenuInput) == 1:
     UserFilePath = input ("Enter File Path:")
     InsertBlob (UserFilePath)
 elif int (MenuInput) == 2:
     UserIdChoice = input("Enter ID:")
     RetrieveBlob(UserIdChoice)
+elif int (MenuInput) == 3:
+    UserFileBytes = input ("Enter Id Image:")
+    RetrieveImageBytes(UserFileBytes)
+elif int (MenuInput) == 4:
+    UpdateImage = input("Enter Id Image:")
+    UserFilePath = input("Enter FilePath:")
+    UpdateBlob(UpdateImage,UserFilePath)
+
+
+
