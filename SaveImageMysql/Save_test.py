@@ -17,8 +17,8 @@ MyCursor = myDB.cursor()
 def InsertBlob(FilePath):
     with open (FilePath,"rb") as File:
         BinaryData = File.read()
-    SQlStatement = "INSERT INTO imagens (nome, caminho) values (%s, %s)"
-    MyCursor.execute(SQlStatement, (BinaryData, ))
+    SQlStatement = "INSERT INTO imagens (nome) values (%s)"
+    MyCursor.execute(SQlStatement, (BinaryData))
     myDB.commit()
 
 def UpdateBlob(id, FilePath):
@@ -46,16 +46,11 @@ def RetrieveImageBytes(ID):
 def RetrieveBlob(ID):
     SQLStatement2 = "SELECT * FROM imagens WHERE id = '{0}'"
     MyCursor.execute(SQLStatement2.format(str(ID)))
-    MyResult2 = MyCursor.fetchone()[2]
-    StoreFilePath = "C:/Users/User/Desktop/Codigos/Python/Abrec_Camera/test/fotos/".format(str(ID))
+    MyResult2 = MyCursor.fetchone()[1]
+    StoreFilePath = "C:/Users/User/Desktop/Codigos/Python/Abrec_Camera/test/Imagens_Banco_Teste/capture{}.png".format(str(ID))
     print (MyResult2)
-    SQLStatement3 = "SELECT * FROM imagens WHERE id = '{0}'"
-    MyCursor.execute(SQLStatement3.format(str(ID)))
-    MyResult3 = MyCursor.fetchone()[2]
-    StoreFilePath = "C:/Users/User/Desktop/Codigos/Python/Abrec_Camera/test/fotos/capture_teste.png".format(str(ID))
-    print(MyResult3)
     with open (StoreFilePath, "wb") as File:
-        File.write(MyResult3)
+        File.write(MyResult2)
         File.close()
 
 
